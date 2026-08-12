@@ -1,7 +1,16 @@
-// Dicionário de códigos WMO
+/**
+ * @fileoverview Módulo responsável pela integração com a API do Open-Meteo e manipulação de dados meteorológicos.
+ */
+
+/**
+ * Dicionário que mapeia os códigos de condição meteorológica da WMO (World Meteorological Organization)
+ * para suas respectivas descrições e classes de ícones (dia e noite).
+ *
+ * @constant {Object.<number, {description: string, iconDay: string, iconNight: string}>}
+ */
 const weatherMap = {
   0: { description: 'Céu Limpo', iconDay: 'wi-day-sunny', iconNight: 'wi-night-clear' },
-  1: { description: 'Predominantemente Ensonarado', iconDay: 'wi-day-sunny-overcast', iconNight: 'wi-night-partly-cloudy' },
+  1: { description: 'Predominantemente Ensolarado', iconDay: 'wi-day-sunny-overcast', iconNight: 'wi-night-partly-cloudy' },
   2: { description: 'Parcialmente Nublado', iconDay: 'wi-day-cloudy', iconNight: 'wi-night-alt-cloudy' },
   3: { description: 'Nublado', iconDay: 'wi-cloudy', iconNight: 'wi-cloudy' },
   45: { description: 'Nevoeiro', iconDay: 'wi-fog', iconNight: 'wi-fog' },
@@ -23,7 +32,24 @@ const weatherMap = {
   99: { description: 'Tempestade com Granizo Forte', iconDay: 'wi-storm-showers', iconNight: 'wi-storm-showers' }
 };
 
-// Função modularizada para buscar dados de clima (usada também nos testes)
+/**
+ * Busca dados meteorológicos de uma determinada cidade utilizando as APIs Open-Meteo.
+ *
+ * @async
+ * @param {string} cityName - O nome da cidade a ser consultada.
+ * @param {Function} [fetchClient=fetch] - Cliente de requisição HTTP utilizado (padrão é o `fetch` nativo).
+ * @returns {Promise<{name: string, country: string, temperature: number, isDay: boolean, description: string, iconClass: string}>} Objeto contendo os dados climáticos processados.
+ *
+ * @throws {Error} Lança exceção se o nome da cidade for inválido, vazio ou não string.
+ * @throws {Error} Lança exceção se a requisição estourar o limite de requisições (Status HTTP 429).
+ * @throws {Error} Lança exceção se houver falha de comunicação com as APIs.
+ * @throws {Error} Lança exceção se a cidade não for encontrada.
+ * @throws {Error} Lança exceção se a estrutura do JSON retornado for inesperada.
+ *
+ * @example
+ * const weatherData = await fetchWeatherData('São Paulo');
+ * console.log(weatherData.temperature); // Retorna a temperatura formatada em °C
+ */
 async function fetchWeatherData(cityName, fetchClient = fetch) {
   if (!cityName || typeof cityName !== 'string' || cityName.trim() === '') {
     throw new Error('Nome de cidade inválido ou vazio.');
@@ -49,7 +75,7 @@ async function fetchWeatherData(cityName, fetchClient = fetch) {
 
   const { latitude, longitude, name, country } = geoData.results[0];
 
-  // 2. Clima
+  // 2. Consulta de Clima
   const weatherResponse = await fetchClient(
     `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
   );
@@ -85,7 +111,7 @@ async function fetchWeatherData(cityName, fetchClient = fetch) {
   };
 }
 
-// Manipulação da DOM no navegador
+// Manipulação do DOM no navegador
 if (typeof document !== 'undefined') {
   const searchForm = document.getElementById('searchForm');
   if (searchForm) {
@@ -134,7 +160,6 @@ if (typeof document !== 'undefined') {
   }
 }
 
-// Exporta para testes se estiver em ambiente Node
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { fetchWeatherData, weatherMap };
 }
