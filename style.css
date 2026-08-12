@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #b3e5fc 0%, #e1f5fe 100%);
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 30px 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  background-color: #f8f9fa;
+}
+
+input:focus {
+  border-color: #42a5f5;
+}
+
+button {
+  padding: 10px 18px;
+  background-color: #42a5f5;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2196f3;
+}
+
+/* Estado utilitário de ocultar */
+.hidden {
+  display: none !important;
+}
+
+/* Mensagem de erro */
+.error-message {
+  background-color: #ffebee;
+  color: #e53935;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-top: 15px;
+}
+
+/* Card com a temperatura */
+.weather-result {
+  margin-top: 15px;
+}
+
+.temp-badge {
+  background-color: #d1c4e9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+#temperature {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #311b92;
+}
+
+h2 {
+  font-size: 1rem;
+  color: #455a64;
+}

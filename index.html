@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Previsão do Tempo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="container">
+    <div class="card">
+      <h1>Previsão do Tempo Para Devs</h1>
+
+      <!-- Formulário de Busca -->
+      <form id="searchForm" class="search-box">
+        <input 
+          type="text" 
+          id="cityInput" 
+          placeholder="Digite o nome da cidade" 
+          required
+        >
+        <button type="submit" id="searchBtn">Buscar</button>
+      </form>
+
+      <!-- Mensagem de Erro (escondida por padrão) -->
+      <p id="errorMessage" class="error-message hidden"></p>
+
+      <!-- Resultado do Clima (escondido por padrão) -->
+      <div id="weatherResult" class="weather-result hidden">
+        <div class="temp-badge">
+          <span id="temperature">--</span>°
+        </div>
+        <h2 id="locationName">--</h2>
+      </div>
+    </div>
+  </main>
+
+  <script src="api.js"></script>
+</body>
+</html>
