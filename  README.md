@@ -1,112 +1,56 @@
-# 🌤️ Aplicativo de Previsão do Tempo (Weather App)
+🌤️ Previsão do Tempo
 
-Aplicação web simples, moderna e responsiva para consulta de previsão do tempo em tempo real para qualquer cidade do mundo, desenvolvida com **HTML5, CSS3, JavaScript puro (Vanilla JS)** e a API pública **Open-Meteo**.
+Aplicação web para consultar o clima atual, ver a previsão dos próximos dias e comparar o clima entre várias cidades ao mesmo tempo.
 
----
+Descrição
+O projeto foi construído com HTML5, CSS3 e JavaScript (ES6+), consumindo as APIs públicas do Open-Meteo para buscar dados de geocodificação e previsão do tempo.
 
-## 📌 Sumário
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Instalação e Execução](#-instalação-e-execução)
-- [Execução dos Testes](#-execução-dos-testes)
-- [Documentação do Código (JSDoc)](#-documentação-do-código-jsdoc)
-- [Licença](#-licença)
+Como funciona
 
----
+Busca por cidade — o usuário digita o nome da cidade e clica em Buscar.
 
-## ✨ Funcionalidades
+Geocodificação — o api.js envia esse nome para a API de Geocoding do Open-Meteo, que retorna as coordenadas (latitude/longitude) da cidade.
 
-- **Consulta em Tempo Real:** Pesquisa de clima por nome de cidade utilizando geocodificação da Open-Meteo.
-- **Ícones Meteorológicos Dinâmicos:** Mapeamento de códigos WMO para ícones visuais usando Weather Icons.
-- **Temas Dinâmicos (Dia / Noite):** Transição de fundo baseada na indicação do período do dia (`is_day`).
-- **Tratamento Amigável de Erros:** Exibição clara de mensagens para cidade não encontrada, entrada vazia, falha de rede e limite de requisições.
-- **Suíte de Testes Automatizados:** Testes unitários com mocks via Jest garantindo a estabilidade da função principal e cobertura de cenários de borda.
+Clima atual — com as coordenadas, a aplicação consulta a Forecast API e exibe temperatura, condição do tempo, umidade, vento e chuva.
 
----
+Previsão de 7 dias — logo abaixo é exibida a previsão para os próximos dias, com temperatura máxima e mínima de cada um.
 
-## 🛠️ Tecnologias Utilizadas
-
-- **HTML5:** Estrutura semântica da página.
-- **CSS3:** Estilização responsiva, layout flexbox e variáveis para alternância de temas.
-- **JavaScript (ES6+):** Consumo assíncrono de API via `fetch`, manipulação da DOM e lógica de aplicação.
-- **Open-Meteo API:**
-  - *Geocoding API* (`geocoding-api.open-meteo.com`)
-  - *Weather Forecast API* (`api.open-meteo.com`)
-- **Weather Icons:** Biblioteca de ícones vetoriais específicos para condições climáticas.
-- **Jest:** Framework de testes automatizados em ambiente Node.js.
-
----
-
-## 📁 Estrutura do Projeto
-
-```text
-projeto_clima_tempo/
-├── css/
-│   ├── style.css
-│   └── weather-icons.min.css
-├── font/
-│   └── (arquivos de fontes do Weather Icons)
-├── tests/
-│   └── api.test.js
-├── index.html
-├── api.js
-├── package.json
-└── README.md
-🚀 Instalação e Execução
-Pré-requisitos
-Node.js instalado (versão 14 ou superior)
-Navegador web moderno ou extensão Live Server no VS Code
-Passo a Passo
-Clonar o Repositório:
-Bash
-git clone [https://github.com/vitoriaalbuquerqueee/projeto_clima_tempo.git](https://github.com/vitoriaalbuquerqueee/projeto_clima_tempo.git)
-cd projeto_clima_tempo
-Instalar Dependências de Desenvolvimento:
-Bash
-npm install
-Executar a Aplicação no Navegador:
-
-Abra o arquivo index.html diretamente no navegador de sua preferência ou utilizando a extensão Live Server no VS Code.
+Comparar cidades — é possível adicionar até 5 cidades e comparar o clima de todas ao mesmo tempo em uma tabela, com clima, temperatura, umidade, vento e chuva lado a lado.
 
 
-🧪 Execução dos Testes
-Para executar a suíte de testes unitários com o Jest:
-Bash
-npm test
+Funcionalidades
+Busca de clima em tempo real por nome de cidade
+Previsão meteorológica diária para 7 dias
+Comparador de clima entre até 5 cidades em paralelo
 
-Cenários Testados:
-Retorno de dados válidos para uma cidade existente.
+Temas visuais dinâmicos (Dia / Noite) com estrelas animadas
 
-Lançamento de erro para cidade não encontrada.
-Validação de campos vazios ou inválidos.
+Layout responsivo e adaptável
 
-Tratamento de erro 500/falha de servidor.
+Testes unitários automatizados com Jest
 
-Tratamento de limite de requisições excedido (HTTP 429).
+Tecnologias Utilizadas
+Front-end: HTML5, CSS3, JavaScript (ES6+), Weather Icons
+APIs Externas: Open-Meteo Forecast API & Geocoding API
+Testes: Node.js, Jest
 
-Falha de rede e inconsistências de conexão.
+Instalação e Execução
 
-Tratamento de estrutura JSON inesperada.
+Clonar o repositório:
+bash
+   git clone https://github.com/seu-usuario/projeto_clima_tempo.git
+   cd projeto_clima_tempo
 
-📄 Documentação do Código (JSDoc)
-A função principal do projeto (fetchWeatherData) foi totalmente documentada com o padrão JSDoc.
+Instalar dependências:
+bash
+   npm install
 
-Exemplo de utilização:
+Executar a suíte de testes:
+bash
+   npm test
 
-JavaScript
-import { fetchWeatherData } from './api.js';
-
-try {
-  const weather = await fetchWeatherData('São Paulo');
-  console.log(`Temperatura atual em ${weather.name}: ${weather.temperature}°C`);
-} catch (error) {
-  console.error(error.message);
-}
-
+Executar a aplicação: Abra o arquivo index.html diretamente no navegador ou utilize a extensão Live Server no VS Code.
 
 
-📜 Licença
-Este projeto foi desenvolvido como parte de atividade prática de desenvolvimento de software. Livre para fins educacionais.
-
-
+Licença e Privacidade
+Este projeto está licenciado sob a Licença MIT — veja o arquivo LICENSE para mais detalhes. As atribuições de terceiros estão detalhadas no arquivo NOTICE.md.
