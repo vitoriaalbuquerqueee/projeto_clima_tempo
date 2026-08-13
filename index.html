@@ -4,43 +4,108 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Previsão do Tempo</title>
-  <!-- Link da biblioteca Weather Icons via CDN -->
+  <!-- Bibliotecas de ícones de clima e FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Estilos customizados da aplicação -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="night-theme">
 
-  <main class="container">
-    <div class="card">
-      <h1>Previsão do Tempo Para Devs</h1>
+  <!-- Container dinâmico para renderização das estrelas no tema noturno -->
+  <div id="starsContainer" class="stars"></div>
 
-      <!-- Formulário de Busca -->
-      <form id="searchForm" class="search-box">
-        <input 
-          type="text" 
-          id="cityInput" 
-          placeholder="Digite o nome da cidade" 
-          required
-        >
-        <button type="submit" id="searchBtn">Buscar</button>
-      </form>
+  <div class="container">
+    <h1>Previsão do Tempo</h1>
+    <p class="subtitle">Consulte o clima atual de qualquer cidade</p>
 
-      <!-- Mensagem de Erro -->
-      <p id="errorMessage" class="error-message hidden"></p>
+    <!-- Formulário principal para entrada do nome da cidade -->
+    <form id="searchForm" class="search-box">
+      <input type="text" id="cityInput" placeholder="Digite o nome da cidade..." required>
+      <button type="submit" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+    </form>
 
-      <!-- Resultado do Clima -->
-      <div id="weatherResult" class="weather-result hidden">
-        <div class="temp-badge">
-          <i id="weatherIcon" class="wi"></i>
-          <span id="temperature">--</span>°
+    <!-- Exibição de mensagens de erro na validação ou na busca da API -->
+    <div id="errorMessage" class="error-message hidden"></div>
+
+    <!-- Card principal com as informações do clima atual -->
+    <div id="weatherCard" class="weather-card hidden">
+      <h2 id="cityName">--</h2>
+      <div class="main-temp">
+        <i id="weatherIcon" class="wi wi-day-sunny"></i>
+        <span id="tempValue">--</span>°C
+      </div>
+      <p id="weatherDesc" class="weather-desc">--</p>
+
+      <!-- Grade com métricas adicionais de umidade, vento e precipitação -->
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <i class="fa-solid fa-droplet"></i>
+          <span>Umidade</span>
+          <strong id="humidityVal">--%</strong>
         </div>
-        <h2 id="locationName">--</h2>
-        <p id="weatherDescription" class="weather-description">--</p>
-        <p id="currentDate" class="current-date">--</p>
+        <div class="metric-item">
+          <i class="fa-solid fa-wind"></i>
+          <span>Vento</span>
+          <strong id="windVal">-- km/h</strong>
+        </div>
+        <div class="metric-item">
+          <i class="fa-solid fa-cloud-rain"></i>
+          <span>Chuva</span>
+          <strong id="precipVal">-- mm</strong>
+        </div>
+      </div>
+
+      <!-- Botão para acionar a funcionalidade de comparação -->
+      <button type="button" id="toggleCompareBtn" class="btn-secondary">
+        <i class="fa-solid fa-code-compare"></i> Comparar com outra cidade
+      </button>
+
+      <!-- Seção da previsão semanal integrada no card principal -->
+      <div id="forecastSection" class="forecast-section">
+        <h3 class="forecast-title">Previsão para os próximos dias</h3>
+        <div id="forecastContainer" class="forecast-container">
+          <!-- Conteúdo populado dinamicamente via JavaScript -->
+        </div>
       </div>
     </div>
-  </main>
 
+    <!-- Seção de comparação entre múltiplas cidades -->
+    <div id="compareSection" class="compare-section hidden">
+      <h3>Comparar Cidades (Até 5)</h3>
+      <div class="compare-input-box">
+        <input type="text" id="compareInput" placeholder="Digite outra cidade...">
+        <button type="button" id="addCompareBtn"><i class="fa-solid fa-plus"></i> Adicionar</button>
+      </div>
+
+      <!-- Tag list com as cidades adicionadas para comparação -->
+      <ul id="compareList" class="cities-tags"></ul>
+
+      <div class="compare-actions">
+        <button type="button" id="runCompareBtn" class="btn-success">Comparar Climas</button>
+        <button type="button" id="clearCompareBtn" class="btn-danger">Limpar Tudo</button>
+      </div>
+
+      <!-- Tabela para exibição dos dados das cidades comparadas -->
+      <div id="comparisonTable" class="hidden table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Cidade</th>
+              <th>Clima</th>
+              <th>Temp.</th>
+              <th>Umidade</th>
+              <th>Vento</th>
+              <th>Chuva</th>
+            </tr>
+          </thead>
+          <tbody id="comparisonBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script da API e manipulação do DOM -->
   <script src="api.js"></script>
 </body>
 </html>

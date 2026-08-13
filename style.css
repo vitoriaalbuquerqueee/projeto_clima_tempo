@@ -1,213 +1,386 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-:root {
-  --glass-bg: rgba(15, 23, 42, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-card: rgba(0, 0, 0, 0.35);
-  --text-main: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --accent: #38ef7d;
-  --accent-glow: rgba(56, 239, 125, 0.4);
-  --button-bg: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-}
-
+/* Reseta as margens, paddings e define a tipografia padrão */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Fundo padrão antes de realizar qualquer busca: Noite Estrelada */
+/* Configuração base do layout e transições de tema */
 body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: var(--text-main);
-  transition: background 0.8s ease;
-  padding: 20px;
-  background: 
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 35% 60%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
-    radial-gradient(circle at 85% 70%, rgba(255, 255, 255, 0.8) 1.2px, transparent 1.2px),
-    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.7) 1px, transparent 1px),
-    linear-gradient(135deg, #090a0f 0%, #111e38 50%, #1a2a6c 100%);
-  background-size: 100% 100%;
+  align-items: flex-start;
+  padding: 40px 20px;
+  transition: background 0.5s ease, color 0.5s ease;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Fundo Diurno com Sol radiante */
-body.day-theme {
-  background: radial-gradient(circle at 85% 15%, #ffe17d 0%, #f39c12 25%, #2980b9 70%, #1a5276 100%);
-}
-
-/* Fundo Noturno com Estrelas */
+/* TEMA NOTURNO: Fundo escuro em gradiente e cores claras */
 body.night-theme {
-  background: 
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 35% 60%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
-    radial-gradient(circle at 85% 70%, rgba(255, 255, 255, 0.8) 1.2px, transparent 1.2px),
-    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.7) 1px, transparent 1px),
-    linear-gradient(135deg, #090a0f 0%, #111e38 50%, #1a2a6c 100%);
-  background-size: 100% 100%;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  color: #f8fafc;
 }
 
-/* Card Principal Glassmorphism com escurecimento de apoio */
-.container, main, #app {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 2.5rem 2rem;
+/* Camada fixa para as estrelas animadas */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Estilo individual de cada estrela com animação de brilho */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Componentes estilizados para o modo noturno */
+body.night-theme .container {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+body.night-theme .weather-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid #334155;
+}
+
+body.night-theme input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #fff;
+}
+
+body.night-theme th {
+  background: #0f172a;
+  color: #38bdf8;
+}
+
+/* TEMA DIURNO: Gradiente azul claro e elementos escuros */
+body.day-theme {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
+  color: #0f172a;
+}
+
+body.day-theme .stars {
+  display: none;
+}
+
+body.day-theme .container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+body.day-theme .subtitle {
+  color: #475569;
+}
+
+body.day-theme .weather-card {
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid #cbd5e1;
+}
+
+body.day-theme .weather-desc {
+  color: #334155;
+}
+
+body.day-theme .metric-item {
+  color: #475569;
+}
+
+body.day-theme .metric-item strong {
+  color: #0f172a;
+}
+
+body.day-theme input {
+  background: #fff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+body.day-theme th {
+  background: #e2e8f0;
+  color: #0284c7;
+}
+
+body.day-theme td, body.day-theme th {
+  border-bottom-color: #cbd5e1;
+}
+
+/* Estrutura do container principal da aplicação */
+.container {
+  width: 100%;
+  max-width: 650px;
+  border-radius: 16px;
+  padding: 30px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-/* Título */
 h1 {
-  font-size: 1.45rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 6px;
 }
 
-/* Form de busca */
-form, .search-box {
+.subtitle {
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.search-box, .compare-input-box {
   display: flex;
   gap: 10px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
 }
 
-input[type="text"], #cityInput {
+input {
   flex: 1;
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  font-size: 0.95rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 1rem;
+}
+
+input:focus {
   outline: none;
-  transition: all 0.3s ease;
+  border-color: #38bdf8;
 }
 
-input[type="text"]::placeholder, #cityInput::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-input[type="text"]:focus, #cityInput:focus {
-  border-color: #38ef7d;
-  box-shadow: 0 0 0 4px var(--accent-glow);
-  background: rgba(255, 255, 255, 0.25);
-}
-
-button, input[type="submit"] {
-  padding: 14px 22px;
-  border-radius: 14px;
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
   border: none;
-  background: var(--button-bg);
-  color: #071f11;
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px var(--accent-glow);
+  transition: all 0.2s;
+  background: #38bdf8;
+  color: #0f172a;
 }
 
-button:hover, input[type="submit"]:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(56, 239, 125, 0.6);
+button:hover {
+  background: #0284c7;
+  color: #fff;
 }
 
-/* Resultado */
-#weatherResult {
-  background: var(--glass-card);
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  animation: slideUp 0.4s ease;
+/* Variantes de botões das interfaces */
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  width: 100%;
+  margin-top: 20px;
 }
 
-#weatherResult .temp-box, 
-#weatherResult > div:first-child {
+.btn-secondary:hover {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+}
+
+.btn-success { background: #10b981; color: #fff; }
+.btn-success:hover { background: #059669; }
+
+.btn-danger { background: #ef4444; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+
+/* Utilitário para ocultar elementos do DOM */
+.hidden { display: none !important; }
+
+/* Exibição de mensagens de erro */
+.error-message {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Visualização do card do clima principal */
+.weather-card {
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.main-temp {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 15px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-bottom: 1rem;
+  gap: 15px;
 }
 
-#weatherIcon {
-  font-size: 3rem;
-  color: var(--accent);
-  filter: drop-shadow(0 0 12px var(--accent-glow));
-}
-
-#temperature {
-  font-size: 3.8rem;
-  font-weight: 800;
-  letter-spacing: -2px;
-  line-height: 1;
-  color: #ffffff;
-}
-
-#temperature::after {
-  content: '°C';
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: var(--accent);
-  vertical-align: top;
-  margin-left: 2px;
-}
-
-#locationName {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
-  color: #ffffff;
-}
-
-#weatherDescription {
-  font-size: 0.95rem;
-  color: var(--accent);
-  font-weight: 500;
-  margin-bottom: 0.4rem;
+.weather-desc {
   text-transform: capitalize;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
 }
 
-#currentDate {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  text-transform: capitalize;
+/* Métricas do clima dispostas em grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
 }
 
-/* Erro */
-#errorMessage {
-  background: rgba(239, 68, 68, 0.25);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
-  padding: 14px;
-  border-radius: 14px;
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   font-size: 0.9rem;
-  margin-top: 1rem;
-  animation: slideUp 0.3s ease;
 }
 
-.hidden {
-  display: none !important;
+.metric-item i {
+  font-size: 1.2rem;
+  color: #38bdf8;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.metric-item strong {
+  font-size: 1rem;
+}
+
+/* Seção de previsão dos próximos dias */
+.forecast-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.forecast-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.forecast-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.forecast-day-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 8px;
+  min-width: 70px;
+  flex: 1;
+  text-align: center;
+}
+
+.forecast-date {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 6px;
+}
+
+.forecast-icon {
+  font-size: 1.3rem;
+  margin: 4px 0;
+  display: block;
+  color: #38bdf8;
+}
+
+.forecast-temps {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.forecast-max {
+  font-weight: 600;
+  color: #f87171;
+}
+
+.forecast-min {
+  font-weight: 500;
+  color: #60a5fa;
+}
+
+.forecast-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.forecast-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Área e componentes da funcionalidade de comparação */
+.compare-section {
+  margin-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  text-align: left;
+}
+
+.compare-section h3 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.cities-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.cities-tags li {
+  background: rgba(51, 65, 85, 0.5);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+}
+
+.compare-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  text-align: center;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid;
+  font-size: 0.9rem;
 }
